@@ -10,7 +10,7 @@ const user = new UserTest({
 });
 
 // Save to the database
-await       user.save();
+      await       user.save();
 
 // Search a user
 // const foundUser = await User.findOne({ firstName: 'Max' });
