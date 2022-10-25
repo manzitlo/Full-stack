@@ -1,0 +1,22 @@
+{
+  "!!!IMPORTANT_NOTES!!!": "Will delete soon, so pls use your worn mongoDBConnectURI",
+  "mongodbConnectURI": "mongodb+srv://max:meetfoodclass@cluster0.zepyq.mongodb.net/?retryWrites=true&w=majority",
+
+  "jwtSecret": "meetFoodSecretToken",
+  "jwtExpireTime": 360000,
+
+  "!!!IMPORTANT_NOTES!!!": "We will delete the following service soon, so replace the following values after Client creates your own AWS Cognito Service",
+  "CognitoRegion": "us-east-1",
+  "CognitoToCUserPoolId": "us-east-1_NVPBjMKzp",
+  "CognitoTokenUse": "access",
+  "CognitoTokenExpiration": 8640000,
+
+  "S3AccessKeyID": "xxxxxx",
+  "S3SecretAccessKey": "xxxxxxx",
+  "S3ProfilePhotoBucketName": "xxxxxxx",
+  "S3CoverImageBucketName": "xxxxxxx",
+  "S3VideoBucketName": "xxxxxxx",
+  "S3VideoUrlPrefix": "xxxxxxx",
+  "S3ProfilePhotoUrlPrefix": "xxxxxxx",
+  "S3CoverImageUrlPrefix": "xxxxxxx"
+}

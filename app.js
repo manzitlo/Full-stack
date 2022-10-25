@@ -1,51 +1,51 @@
-// Requiring the module
 const express = require('express');
-const app = express();
-const routeModule = require('./routes/routeModule');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const config = require('./config/production');
+const port = process.env.PORT || 3000;
+const expressValidator = require('express-validator');
 
-// parse application/json, basically parse incoming Request Object as a JSON Object
-app.use(express.json());
-// parse application/x-www-form-urlencoded, basically can only parse incoming Request Object if strings or arrays
-app.use(express.urlencoded({ extended: false }));
+mongoose.set('debug', true);
 
-// Route handling
-app.get('/', (req, res) => {
-  res.send('<h2>Hello from Express.js server!!</h2>');
-});
+//Product routes
+const userRoutes = require('./routes/user');
+const videoRoutes = require('./routes/videopost');
+
+const app = express();
+
+//Middleware
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    },
+  }),
+);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator());
 
 //Add routers
-app.use('/api/v1/', routeModule);
+app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/video', videoRoutes);
+app.get('/', function (req, res) {
+  res.status(200).json({
+    message: 'Successfully access MeetFood API.',
+  });
+});
 
+//Database
 mongoose
-  .connect(
-    'mongodb+srv://max:meetfoodclass@cluster0.zepyq.mongodb.net/?retryWrites=true&w=majority',
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      dbName: 'seefood-database',
-    }
-  )
+  .connect(config.mongodbConnectURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: 'seefood-database',
+  })
   .then(() => {
     console.log('Database Connection is ready...');
-    app.listen(8080);
-    console.log('server listening on port 8080');
+    app.listen(port);
   })
   .catch((err) => {
     console.log(err);
   });
 
-
-
-// await User.populate(user, {
-//   path: 'likedVideos.videoPost.businessId',
-//   select: [
-//     '_id',
-//     'businessName',
-//     'businessLogo',
-//     'businessType',
-//     'businessUrl',
-//     'canDelivery',
-//     'canPickup',
-//   ],
-// });
+module.exports = app;
